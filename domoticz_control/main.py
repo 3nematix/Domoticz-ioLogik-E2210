@@ -110,45 +110,6 @@ class MoxaEngine:
             print(er)
             return None
 
-    def di(self, action, channel,  value):
-        try:
-            self.action = action
-            self.channel = channel
-            self.value = value
-
-            if self.value not in ALLOWED_DI_VALUES:
-                return None
-
-            if self.channel not in ALLOWED_DI_CHANNELS:
-                return None
-
-            if self.action not in ALLOWED_DI_ACTIONS:
-                return None
-
-            if self.action == 0:  # GET
-                try:
-
-                    self.req_data = requests.get(f'http://{self.ip}/getParam.cgi?DIStatus_0{self.channel}=?', timeout=5)
-                    self.req = self.req_data.text.replace(f'DIStatus_0{self.channel}', '').replace('=', '').replace('<br>', '')
-                    return True if self.req == '1' else False
-
-                except (ConnectTimeout, HTTPError, ReadTimeout, Timeout, ConnectionError):
-                    return None
-
-            elif self.action == 1:  # SET
-                try:
-                    print(f'http://{self.ip}/setParam.cgi?DIStatus_0{self.channel}={self.value}')
-                    self.req_data = requests.get(f'http://{self.ip}/setParam.cgi?DIStatus_0{self.channel}={self.value}', timeout=5)
-                    self.req = self.req_data.text.replace(f'DIStatus_0{self.channel}', '').replace('=', '').replace('<br>', '')
-                    return True if self.req == str(self.value) else False
-
-                except (ConnectTimeout, HTTPError, ReadTimeout, Timeout, ConnectionError):
-                    return None
-
-        except Exception as er:
-            print(er)
-            return None
-
 
 Moxa = MoxaEngine(moxaIP)
 
@@ -163,10 +124,6 @@ if '__main__' == __name__:
         # Now we can update the value
         if type.lower() == 'do':
             resp = Moxa.do(action, channel, value)
-            print('updated') if resp is True else print('not updated')
-
-        if type.lower() == 'di':
-            resp = Moxa.di(action, channel, value)
             print('updated') if resp is True else print('not updated')
 
     except Exception as er:
