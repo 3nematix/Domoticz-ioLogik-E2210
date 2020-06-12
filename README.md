@@ -16,7 +16,7 @@ To update the device through domoticz_control/main.py, you should use these para
 ```
 
 
-* NOTE: You should remove these bracket and words, this is just a example of usage. Below this is a correct format of calling a .py file
+* NOTE: You should remove these bracket and words, this is just a example of usage. Below there's a correct format of calling a .py file
 ```
   python3 main.py 192.168.1.220 5 1
 ```
